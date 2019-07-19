@@ -1,0 +1,19 @@
+{
+  "name": "async-rest-events",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --ui tdd --recursive test/**/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cepharum/async-rest-events.git"
+  },
+  "author": "Thomas Urban <thomas.urban@cepharum.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cepharum/async-rest-events/issues"
+  },
+  "homepage": "https://github.com/cepharum/async-rest-events#readme"
+}
