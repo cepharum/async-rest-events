@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/cepharum/async-rest-events/issues"
   },
-  "homepage": "https://github.com/cepharum/async-rest-events#readme"
+  "homepage": "https://github.com/cepharum/async-rest-events#readme",
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-cepharum": "^1.0.9",
+    "eslint-plugin-promise": "^4.2.1",
+    "mocha": "^6.2.0",
+    "should": "^13.2.3"
+  }
 }
