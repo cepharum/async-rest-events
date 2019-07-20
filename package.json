@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "style": "eslint .",
     "test": "mocha --ui tdd --recursive test/**/*.spec.js"
   },
   "repository": {
