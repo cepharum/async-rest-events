@@ -16,7 +16,7 @@ npm i event-pull
 
 The library offers pool of events emitted for dispatching to particular recipients that have to pull events one by one. Emitters might be notified on recipient having fetched available event. On the opposite end the receiver might pull for another event "blocking" while waiting for some event if there is no pending event.
 
-The intention is to reverse order of processing in a client-server setup. Clients might request server for pulling events targeted at the requesting client. Different parties might use requests on the same server to emit events without caring whether the selected recipient is currently available or not, though knowing that any emitted event is dispatched to the recipient as soon as he gets back for pulling another pending event.
+The intention is to reverse order of processing in a client-server setup. Clients might request server for pulling events targeted at the requesting client. Different parties might use requests on the same server to emit events basically without caring whether the selected recipient is currently available or not, though knowing that any emitted event is dispatched to the recipient as soon as he gets back for pulling another pending event.
 
 ### Create the Pool
 
@@ -27,6 +27,16 @@ const { EventPool } = require( "event-pull" );
 
 const sharedPool = new EventPool();
 ```
+
+When constructing new pool options might be passed in first argument to customize the pool's behaviour. The default options are:
+
+```
+const DefaultOptions = {
+	maxPendingEvents: 100,
+};
+```
+
+* `maxPendingEvents` limits number of pending events per recipient. This limit results in promise returned on emitting event targeting either recipient to be rejected with no further event being added to the queue of pending events. Use `Infinity` to disable this limit.
 
 ### Emit Events
 
