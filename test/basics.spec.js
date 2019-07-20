@@ -81,13 +81,6 @@ describe( "Dispatching events", () => {
 			} );
 	} );
 
-	it( "times out pulling events", function() {
-		this.timeout( 10000 );
-
-		return pool.pull( "properId", 1000 )
-			.should.be.Promise().which.is.rejected();
-	} );
-
 	it( "pulls full description of emitted event", function() {
 		this.timeout( 10000 );
 
