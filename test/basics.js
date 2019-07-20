@@ -31,8 +31,7 @@
 const { describe, before, it } = require( "mocha" );
 require( "should" );
 
-const EventPool = require( "../lib/pool" );
-const Event = require( "../lib/event" );
+const { Event, EventPool } = require( "../" );
 
 
 describe( "Dispatching events", () => {
