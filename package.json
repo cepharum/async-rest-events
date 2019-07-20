@@ -1,5 +1,5 @@
 {
-  "name": "async-rest-events",
+  "name": "event-pull",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cepharum/async-rest-events.git"
+    "url": "git+https://github.com/cepharum/event-pull.git"
   },
   "author": "Thomas Urban <thomas.urban@cepharum.de>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cepharum/async-rest-events/issues"
+    "url": "https://github.com/cepharum/event-pull/issues"
   },
-  "homepage": "https://github.com/cepharum/async-rest-events#readme",
+  "homepage": "https://github.com/cepharum/event-pull#readme",
   "devDependencies": {
     "eslint": "^6.0.1",
     "eslint-config-cepharum": "^1.0.9",

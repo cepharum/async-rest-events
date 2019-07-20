@@ -1,4 +1,4 @@
-# async-rest-events
+# event-pull
 
 This module implements promise-based event dispatching intended for use in a REST service with some identifiable clients pulling requests to be emitted by other requests.
 
@@ -9,7 +9,7 @@ MIT
 ## Install
 
 ```
-npm i async-rest-events
+npm i event-pull
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ The intention is to reverse order of processing in a client-server setup. Client
 Create the pool on server:
 
 ```javascript
-const { EventPool } = require( "async-rest-events" );
+const { EventPool } = require( "event-pull" );
 
 const sharedPool = new EventPool();
 ```
