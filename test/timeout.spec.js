@@ -39,8 +39,8 @@ describe( "Dispatching events", () => {
 
 	before( () => {
 		pool = new EventPool( {
-			pendingTimeout: 1000,
-			handlingTimeout: 1000,
+			pendingTimeout: 900,
+			handlingTimeout: 900,
 		} );
 	} );
 
@@ -49,18 +49,48 @@ describe( "Dispatching events", () => {
 
 		return pool.emit( "nonPullingRecipient", "someName" )
 			.should.be.Promise().which.is.rejected()
-			.catch( () => {
-				( Date.now() - start ).should.be.greaterThanOrEqual( 800 ).and.lessThanOrEqual( 1200 );
+			.then( () => {
+				( Date.now() - start ).should.be.greaterThanOrEqual( 750 ).and.lessThanOrEqual( 1050 );
 			} );
 	} );
 
 	it( "optionally times out emitting events due to emitter-option", () => {
 		const start = Date.now();
 
-		return pool.emitWithOptions( "nonPullingRecipient", "someName", [], { pendingTimeout: 500 } )
+		return pool.emitWithOptions( "nonPullingRecipient", "someName", [], {
+			pendingTimeout: 500,
+		} )
 			.should.be.Promise().which.is.rejected()
-			.catch( () => {
-				( Date.now() - start ).should.be.greaterThanOrEqual( 300 ).and.lessThanOrEqual( 700 );
+			.then( () => {
+				( Date.now() - start ).should.be.greaterThanOrEqual( 350 ).and.lessThanOrEqual( 650 );
+			} );
+	} );
+
+	it( "optionally times out emitting events waiting for event being handled due to emitter-option", () => {
+		const start = Date.now();
+
+		setTimeout( () => pool.pull( "pullingRecipient" ), 400 );
+
+		return pool.emitAndWait( "pullingRecipient", "someName" )
+			.should.be.Promise().which.is.rejected()
+			.then( () => {
+				( Date.now() - start ).should.be.greaterThanOrEqual( 1150 ).and.lessThanOrEqual( 1450 );
+			} );
+	} );
+
+	it( "optionally times out emitting events waiting for event being handled due to emitter-option", () => {
+		const start = Date.now();
+
+		setTimeout( () => pool.pull( "pullingRecipient" ), 400 );
+
+		return pool.emitWithOptions( "pullingRecipient", "someName", [], {
+			waitForHandlers: true,
+			pendingTimeout: 500,
+			handlingTimeout: 500,
+		} )
+			.should.be.Promise().which.is.rejected()
+			.then( () => {
+				( Date.now() - start ).should.be.greaterThanOrEqual( 750 ).and.lessThanOrEqual( 1050 );
 			} );
 	} );
 
@@ -69,7 +99,7 @@ describe( "Dispatching events", () => {
 
 		return pool.pull( "disobeyedRecipient", 500 )
 			.should.be.Promise().which.is.rejected()
-			.catch( () => {
+			.then( () => {
 				( Date.now() - start ).should.be.greaterThanOrEqual( 300 ).and.lessThanOrEqual( 700 );
 			} );
 	} );
