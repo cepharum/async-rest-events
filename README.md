@@ -14,7 +14,7 @@ npm i event-pull
 
 ## Usage
 
-The library offers pool of events emitted for dispatching to particular recipients that have to pull events one by one. Emitters might be notified on recipient having fetched available event. On the opposite end the receiver might pull for another event "blocking" while waiting for some event if there is no pending event.
+The library offers pool of events emitted for dispatching to particular recipients that have to pull events one by one. Emitters might be notified on recipient having pulled available event. On the opposite end the receiver might pull for another event "blocking" while waiting for some event if there is no pending event.
 
 The intention is to reverse order of processing in a client-server setup. Clients might request server for pulling events targeted at the requesting client. Different parties might use requests on the same server to emit events basically without caring whether the selected recipient is currently available or not, though knowing that any emitted event is dispatched to the recipient as soon as he gets back for pulling another pending event.
 
@@ -39,10 +39,14 @@ When constructing new pool options might be passed in first argument to customiz
 ```
 const DefaultOptions = {
 	maxPendingEvents: 100,
+	pendingTimeout: Infinity,
+	handlingTimeout: Infinity,
 };
 ```
 
 * `maxPendingEvents` limits number of pending events per recipient. This limit results in promise returned on emitting event targeting either recipient to be rejected with no further event being added to the queue of pending events. Use `Infinity` to disable this limit.
+* `pendingTimeout` defines milliseconds to wait per emitted event to be pulled by its designated recipient. This timeout is managed starting with emitting, thus creating the event.
+* `handlingTimeout` defines milliseconds to wait per pulled event to be marked as finished by its handling recipient. This timeout is managed starting with event being actually pulled by its recipient.
 
 ### Emit Events
 

@@ -38,13 +38,39 @@ describe( "Dispatching events", () => {
 	let pool = null;
 
 	before( () => {
-		pool = new EventPool();
+		pool = new EventPool( {
+			pendingTimeout: 1000,
+			handlingTimeout: 1000,
+		} );
 	} );
 
-	it( "times out pulling events", function() {
-		this.timeout( 10000 );
+	it( "optionally times out emitting events due to pool-option", () => {
+		const start = Date.now();
 
-		return pool.pull( "properId", 1000 )
-			.should.be.Promise().which.is.rejected();
+		return pool.emit( "nonPullingRecipient", "someName" )
+			.should.be.Promise().which.is.rejected()
+			.catch( () => {
+				( Date.now() - start ).should.be.greaterThanOrEqual( 800 ).and.lessThanOrEqual( 1200 );
+			} );
+	} );
+
+	it( "optionally times out emitting events due to emitter-option", () => {
+		const start = Date.now();
+
+		return pool.emitWithOptions( "nonPullingRecipient", "someName", [], { pendingTimeout: 500 } )
+			.should.be.Promise().which.is.rejected()
+			.catch( () => {
+				( Date.now() - start ).should.be.greaterThanOrEqual( 300 ).and.lessThanOrEqual( 700 );
+			} );
+	} );
+
+	it( "times out pulling events", () => {
+		const start = Date.now();
+
+		return pool.pull( "disobeyedRecipient", 500 )
+			.should.be.Promise().which.is.rejected()
+			.catch( () => {
+				( Date.now() - start ).should.be.greaterThanOrEqual( 300 ).and.lessThanOrEqual( 700 );
+			} );
 	} );
 } );
