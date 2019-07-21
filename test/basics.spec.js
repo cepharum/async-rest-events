@@ -41,49 +41,41 @@ describe( "Dispatching events", () => {
 		pool = new EventPool();
 	} );
 
-	it( "delays event emitter until emitted event has been pulled", function() {
-		this.timeout( 10000 );
-
-		setTimeout( () => pool.pull( "myId" ), 1000 );
+	it( "delays event emitter until emitted event has been pulled", () => {
+		setTimeout( () => pool.pull( "myId" ), 500 );
 
 		const start = Date.now();
 
 		return pool.emit( "myId", "test" )
 			.then( () => {
-				( Date.now() - start ).should.be.greaterThanOrEqual( 800 ).and.lessThanOrEqual( 1200 );
+				( Date.now() - start ).should.be.greaterThanOrEqual( 300 ).and.lessThanOrEqual( 700 );
 			} );
 	} );
 
-	it( "delays event pulling until there is an event emitted", function() {
-		this.timeout( 10000 );
-
-		setTimeout( () => pool.emit( "myId", "test" ), 1000 );
+	it( "delays event pulling until there is an event emitted", () => {
+		setTimeout( () => pool.emit( "myId", "test" ), 500 );
 
 		const start = Date.now();
 
 		return pool.pull( "myId" )
 			.then( () => {
-				( Date.now() - start ).should.be.greaterThanOrEqual( 800 ).and.lessThanOrEqual( 1200 );
+				( Date.now() - start ).should.be.greaterThanOrEqual( 300 ).and.lessThanOrEqual( 700 );
 			} );
 	} );
 
-	it( "pulls event matching recipient, only", function() {
-		this.timeout( 10000 );
-
-		setTimeout( () => pool.emit( "wrongId", "test" ), 1000 );
-		setTimeout( () => pool.emit( "properId", "test" ), 3000 );
+	it( "pulls event matching recipient, only", () => {
+		setTimeout( () => pool.emit( "wrongId", "test" ), 500 );
+		setTimeout( () => pool.emit( "properId", "test" ), 1000 );
 
 		const start = Date.now();
 
 		return pool.pull( "properId" )
 			.then( () => {
-				( Date.now() - start ).should.be.greaterThanOrEqual( 2800 ).and.lessThanOrEqual( 3200 );
+				( Date.now() - start ).should.be.greaterThanOrEqual( 800 ).and.lessThanOrEqual( 1200 );
 			} );
 	} );
 
-	it( "pulls full description of emitted event", function() {
-		this.timeout( 10000 );
-
+	it( "pulls full description of emitted event", () => {
 		setTimeout( () => pool.emit( "myId", "test", 1, "second" ), 100 );
 
 		return pool.pull( "myId" )
