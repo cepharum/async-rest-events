@@ -76,13 +76,13 @@ describe( "Dispatching events", () => {
 	} );
 
 	it( "pulls full description of emitted event", () => {
-		setTimeout( () => pool.emit( "myId", "test", 1, "second" ), 100 );
+		setTimeout( () => pool.emit( "myId", "test", 1, "second", { third: false } ), 100 );
 
 		return pool.pull( "myId" )
 			.then( event => {
 				event.should.be.instanceOf( Event );
 				event.name.should.be.String().which.is.equal( "test" );
-				event.arguments.should.be.Array().which.is.deepEqual( [ 1, "second" ] );
+				event.arguments.should.be.Array().which.is.deepEqual( [ 1, "second", { third: false } ] );
 			} );
 	} );
 } );
