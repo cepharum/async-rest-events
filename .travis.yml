@@ -1,9 +1,8 @@
 language: node_js
-dist: xenial
 node_js:
-  - "6"
   - "8"
   - "10"
   - "12"
-env:
-  - NODE_ENV="development"
+script:
+  - npm run lint
+  - npm run test
